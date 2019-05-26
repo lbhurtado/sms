@@ -19,6 +19,7 @@ class EngageSparkDriver extends Driver
         $this->from = $from;
     }
 
+    //TODO: orgnaization_id - expose it
     public function send()
     {
         return $this->client->send([
@@ -26,6 +27,8 @@ class EngageSparkDriver extends Driver
                 'message'         => $this->message,
                 'recipient_type'  => self::RECIPIENT_TYPE,
                 'sender_id'       => $this->from,
+                'api_key'         => config('engagespark.api_key'),
+                'org_id'          => config('engagespark.org_id'),
         ]);
     }
 

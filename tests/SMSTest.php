@@ -10,6 +10,8 @@ class SMSTest extends TestCase
     public function service_has_default_properties()
     {
         tap(app(SMSManager::class), function ($service) {
+//            dd(config('engagespark'));
+            dd($service->driver('engagespark')->client());
             $this->assertEquals('engagespark', $service->getDefaultDriver());
             $this->assertSame(config('sms.engagespark.end_points.sms'), $service->driver('engagespark')->client()->getEndPoint('sms'));
             $this->assertSame(config('sms.engagespark.end_points.topup'), $service->driver('engagespark')->client()->getEndPoint('topup'));
