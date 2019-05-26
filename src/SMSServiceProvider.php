@@ -2,7 +2,6 @@
 
 namespace LBHurtado\SMS;
 
-use App\Components\Sms\SMSManager;
 use Illuminate\Support\ServiceProvider;
 
 class SMSServiceProvider extends ServiceProvider
