@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fed8a2e-f29a-414e-90c1-720ebb6ba7e6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SMSServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMSServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SMSManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMSManager.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SMSManager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+            <state relative-caret-position="34">
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
               <folding>
                 <element signature="e#38#76#0#PHP" expanded="true" />
               </folding>
@@ -29,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SMSServiceProvider.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="34">
+              <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -79,13 +77,13 @@
         <option value="$PROJECT_DIR$/src/Facades/SMS.php" />
         <option value="$PROJECT_DIR$/src/Contracts/SMS.php" />
         <option value="$PROJECT_DIR$/src/Exceptions/SMSException.php" />
-        <option value="$PROJECT_DIR$/src/SMSManager.php" />
         <option value="$PROJECT_DIR$/config/config.php" />
         <option value="$PROJECT_DIR$/src/Drivers/Driver.php" />
         <option value="$PROJECT_DIR$/src/Drivers/NullDriver.php" />
         <option value="$PROJECT_DIR$/src/Drivers/NexmoDriver.php" />
         <option value="$PROJECT_DIR$/src/Drivers/EngageSparkDriver.php" />
         <option value="$PROJECT_DIR$/src/SMSServiceProvider.php" />
+        <option value="$PROJECT_DIR$/src/SMSManager.php" />
       </list>
     </option>
   </component>
@@ -256,12 +254,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558827561643</updated>
-      <workItem from="1558827563092" duration="9722000" />
+      <workItem from="1558827563092" duration="10029000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9722000" />
+    <option name="totallyTimeSpent" value="10029000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
@@ -389,20 +387,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SMSManager.php">
+    <entry file="file://$PROJECT_DIR$/src/SMSServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
-          <folding>
-            <element signature="e#38#76#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SMSServiceProvider.php">
+    <entry file="file://$PROJECT_DIR$/src/SMSManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="34">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+          <folding>
+            <element signature="e#38#76#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

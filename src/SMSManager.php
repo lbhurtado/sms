@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components\Sms;
+namespace LBHurtado\SMS;
 
 use LBHurtado\EngageSpark\EngageSpark;
 
