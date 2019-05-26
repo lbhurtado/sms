@@ -27,8 +27,6 @@ class EngageSparkDriver extends Driver
                 'message'         => $this->message,
                 'recipient_type'  => self::RECIPIENT_TYPE,
                 'sender_id'       => $this->from,
-                'api_key'         => config('engagespark.api_key'),
-                'org_id'          => config('engagespark.org_id'),
         ]);
     }
 

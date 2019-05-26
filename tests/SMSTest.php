@@ -10,12 +10,31 @@ class SMSTest extends TestCase
     public function service_has_default_properties()
     {
         tap(app(SMSManager::class), function ($service) {
-//            dd(config('engagespark'));
-            dd($service->driver('engagespark')->client());
-            $this->assertEquals('engagespark', $service->getDefaultDriver());
-            $this->assertSame(config('sms.engagespark.end_points.sms'), $service->driver('engagespark')->client()->getEndPoint('sms'));
-            $this->assertSame(config('sms.engagespark.end_points.topup'), $service->driver('engagespark')->client()->getEndPoint('topup'));
-            $this->assertSame(config('sms.engagespark.sender_id'), $service->driver('engagespark')->client()->getSenderId());
+            $this->assertEquals(config('engagespark'), config('sms.engagespark'));
+            $this->assertEquals(
+                'engagespark',
+                $service->getDefaultDriver()
+            );
+            $this->assertSame(
+                config('sms.engagespark.end_points.sms'),
+                $service->driver('engagespark')->client()->getEndPoint('sms'))
+            ;
+            $this->assertSame(
+                config('sms.engagespark.end_points.topup'),
+                $service->driver('engagespark')->client()->getEndPoint('topup')
+            );
+            $this->assertSame(
+                config('sms.engagespark.sender_id'),
+                $service->driver('engagespark')->client()->getSenderId()
+            );
+            $this->assertSame(
+                config('sms.engagespark.api_key'),
+                $service->driver('engagespark')->client()->getAPIKey()
+            );
+            $this->assertSame(
+                config('sms.engagespark.org_id'),
+                $service->driver('engagespark')->client()->getOrgId()
+            );
         });
     }
 }
