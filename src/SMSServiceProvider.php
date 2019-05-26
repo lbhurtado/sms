@@ -63,6 +63,10 @@ class SMSServiceProvider extends ServiceProvider
         $this->app->singleton('sms', function ($app) {
             return new SMSManager($app);
         });
+
+        $this->app->singleton(SMSManager::class, function ($app) {
+            return $app->make('sms');
+        });
     }
 
     /**
