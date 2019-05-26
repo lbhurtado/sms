@@ -1,0 +1,56 @@
+{
+    "name": "lbhurtado/sms",
+    "description": "Driver-based SMS component in Laravel inspired by the tutorial of Orobo Lucky",
+    "keywords": [
+        "lbhurtado",
+        "sms"
+    ],
+    "homepage": "https://github.com/lbhurtado/sms",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Lester Hurtado",
+            "email": "lester@hurtado.ph",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "5.8.*",
+        "lbhurtado/engagespark": "^1.0",
+        "nexmo/client": "^1.8"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LBHurtado\\SMS\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LBHurtado\\SMS\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LBHurtado\\SMS\\SMSServiceProvider"
+            ],
+            "aliases": {
+                "SMS": "LBHurtado\\SMS\\SMSFacade"
+            }
+        }
+    }
+}
