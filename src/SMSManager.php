@@ -5,10 +5,11 @@ namespace LBHurtado\SMS;
 use LBHurtado\EngageSpark\EngageSpark;
 
 use Illuminate\Support\Manager;
+use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Nexmo\Client as NexmoClient;
 //use Twilio\Rest\Client as TwilioClient;
-use App\Components\Sms\Drivers\NullDriver;
-use App\Components\Sms\Drivers\NexmoDriver;
+use LBHurtado\SMS\Drivers\NullDriver;
+use LBHurtado\SMS\Drivers\NexmoDriver;
 //use App\Components\Sms\Drivers\TwilioDriver;
 use Nexmo\Client\Credentials\Basic as NexmoBasicCredentials;
 
@@ -40,7 +41,9 @@ class SMSManager extends Manager
 
     public function createEngageSparkDriver()
     {
-        return app(EngageSpark::class);
+        return new EngageSparkDriver(
+            app(EngageSpark::class)
+        );
     }
 
 //    /**

@@ -29,4 +29,9 @@ class EngageSparkDriver extends Driver
         ]);
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
 }
