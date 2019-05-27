@@ -29,9 +29,21 @@ abstract class Driver implements SMS
     protected $message;
 
     /**
+     * The amount to topup.
+     *
+     * @var integer
+     */
+    protected $amount;
+
+    /**
      * {@inheritdoc}
      */
     abstract public function send();
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function topup(int $amount);
 
     /**
      * Set the sender of the message.
@@ -77,6 +89,22 @@ abstract class Driver implements SMS
         throw_if(empty($message), SMSException::class, 'Message text is required');
 
         $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Set the amount of the topup.
+     *
+     * @param int $amount
+     * @return $this
+     * @throws \Throwable
+     */
+    public function amount(int $amount)
+    {
+        throw_if(empty($amount), SMSException::class, 'Topup amount is required');
+
+        $this->amount = $amount;
 
         return $this;
     }

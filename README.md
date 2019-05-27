@@ -18,7 +18,7 @@ composer require lbhurtado/sms
 ## Usage
 
 ``` php
-use LBHurtado/SMS/Facades/SMS;
+use LBHurtado\SMS\Facades\SMS;
 
 $mobile = '+639171234567';
 $message = 'The quick brown fox...';
@@ -28,7 +28,6 @@ SMS::channel('engagespark')
     ->to($mobile)
     ->content($message)
     ->send()
-    ->topup($amount)
     ;
 ```
 

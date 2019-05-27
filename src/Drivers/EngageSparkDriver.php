@@ -2,6 +2,7 @@
 
 namespace LBHurtado\SMS\Drivers;
 
+use Illuminate\Support\Str;
 use LBHurtado\EngageSpark\EngageSpark;
 
 class EngageSparkDriver extends Driver
@@ -19,12 +20,27 @@ class EngageSparkDriver extends Driver
 
     public function send()
     {
-        return $this->client->send([
-                'mobile_numbers'  => [$this->recipient],
-                'message'         => $this->message,
-                'recipient_type'  => self::RECIPIENT_TYPE,
-                'sender_id'       => $this->sender,
-        ]);
+        $this->client->send([
+            'mobile_numbers'  => [$this->recipient],
+            'message'         => $this->message,
+            'recipient_type'  => self::RECIPIENT_TYPE,
+            'sender_id'       => $this->sender,
+            'organization_id' => $this->getOrgId(), //TODO: fix this
+        ], 'sms');
+
+        return $this;
+    }
+
+    public function topup(int $amount)
+    {
+        $this->client->send([
+            'phoneNumber'     => $this->recipient,
+            'maxAmount'       => $amount,
+            'clientRef'       => Str::random(6),
+            'organizationId'  => $this->getOrgId(), //TODO: fix this
+        ], 'topup');
+
+        return $this;
     }
 
     public function client()
@@ -32,4 +48,8 @@ class EngageSparkDriver extends Driver
         return $this->client;
     }
 
+    public function getOrgId()
+    {
+        return $this->client()->getOrgId();
+    }
 }

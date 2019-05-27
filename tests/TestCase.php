@@ -36,7 +36,7 @@ class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('engagespark.api_key', 'ABC1234567890');
-        $app['config']->set('engagespark.org_id', '1234');
+        $app['config']->set('engagespark.api_key', 'b3867ab758b3fea05a4f40124e0e4f52c399ed12');
+        $app['config']->set('engagespark.org_id', '7858');
     }
 }

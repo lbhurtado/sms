@@ -10,4 +10,12 @@ interface SMS
      * @return mixed
      */
     public function send();
+
+    /**
+     * Topup the given amount to the given recipient.
+     *
+     * @param int $amount
+     * @return mixed
+     */
+    public function topup(int $amount);
 }
