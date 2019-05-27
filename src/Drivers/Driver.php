@@ -8,6 +8,13 @@ use LBHurtado\SMS\Exceptions\SMSException;
 abstract class Driver implements SMS
 {
     /**
+     * The sender of the message.
+     *
+     * @var string
+     */
+    protected $sender;
+
+    /**
      * The recipient of the message.
      *
      * @var string
@@ -25,6 +32,22 @@ abstract class Driver implements SMS
      * {@inheritdoc}
      */
     abstract public function send();
+
+    /**
+     * Set the sender of the message.
+     *
+     * @param string $sender
+     * @return $this
+     * @throws \Throwable
+     */
+    public function from(string $sender)
+    {
+        throw_if(is_null($sender), SMSException::class, 'Sender cannot be empty');
+
+        $this->sender = $sender;
+
+        return $this;
+    }
 
     /**
      * Set the recipient of the message.

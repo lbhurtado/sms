@@ -10,13 +10,11 @@ class EngageSparkDriver extends Driver
 
     protected $client;
 
-    protected $from = 'serbis.io';
-
     public function __construct(EngageSpark $engageSpark, $from = null)
     {
         $this->client = $engageSpark;
 
-        $this->from = $from;
+        $this->sender = $from;
     }
 
     //TODO: orgnaization_id - expose it
@@ -26,7 +24,7 @@ class EngageSparkDriver extends Driver
                 'mobile_numbers'  => [$this->recipient],
                 'message'         => $this->message,
                 'recipient_type'  => self::RECIPIENT_TYPE,
-                'sender_id'       => $this->from,
+                'sender_id'       => $this->sender,
         ]);
     }
 
