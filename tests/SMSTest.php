@@ -28,10 +28,6 @@ class SMSTest extends TestCase
                 $service->driver('engagespark')->client()->getSenderId()
             );
             $this->assertSame(
-                config('sms.engagespark.api_key'),
-                $service->driver('engagespark')->client()->getAPIKey()
-            );
-            $this->assertSame(
                 config('sms.engagespark.org_id'),
                 $service->driver('engagespark')->client()->getOrgId()
             );

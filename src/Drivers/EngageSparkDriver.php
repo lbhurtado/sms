@@ -3,10 +3,14 @@
 namespace LBHurtado\SMS\Drivers;
 
 use Illuminate\Support\Str;
+use LBHurtado\SMS\Jobs\SendMessage;
 use LBHurtado\EngageSpark\EngageSpark;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class EngageSparkDriver extends Driver
 {
+    use DispatchesJobs;
+
     const RECIPIENT_TYPE = 'mobile_number';
 
     protected $client;
@@ -20,6 +24,15 @@ class EngageSparkDriver extends Driver
 
     public function send()
     {
+        //TODO: fix this job, it is not working
+//        $this->dispatch(new SendMessage([
+//            'mobile_numbers'  => [$this->recipient],
+//            'message'         => $this->message,
+//            'recipient_type'  => self::RECIPIENT_TYPE,
+//            'sender_id'       => $this->sender,
+//            'organization_id' => $this->getOrgId(),
+//        ]));
+
         $this->client->send([
             'mobile_numbers'  => [$this->recipient],
             'message'         => $this->message,

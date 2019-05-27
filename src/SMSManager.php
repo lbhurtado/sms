@@ -7,8 +7,6 @@ use Nexmo\Client as NexmoClient;
 use LBHurtado\SMS\Drivers\NullDriver;
 use LBHurtado\SMS\Drivers\NexmoDriver;
 use LBHurtado\EngageSpark\EngageSpark;
-//use Twilio\Rest\Client as TwilioClient;
-//use App\Components\Sms\Drivers\TwilioDriver;
 use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Nexmo\Client\Credentials\Basic as NexmoBasicCredentials;
 
@@ -28,7 +26,7 @@ class SMSManager extends Manager
     /**
      * Create a Nexmo SMS driver instance.
      *
-     * @return \App\Components\Sms\Drivers\NexmoDriver
+     * @return \LBHurtado\SMS\Drivers\NexmoDriver
      */
     public function createNexmoDriver()
     {
@@ -45,19 +43,6 @@ class SMSManager extends Manager
         );
     }
 
-//    /**
-//     * Create a Twilio SMS driver instance.
-//     *
-//     * @return \App\Components\Sms\Drivers\TwilioDriver
-//     */
-//    public function createTwilioDriver()
-//    {
-//        return new TwilioDriver(
-//            $this->createTwilioClient(),
-//            $this->app['config']['sms.twilio.from']
-//        );
-//    }
-
     /**
      * Create the Nexmo client.
      *
@@ -73,24 +58,10 @@ class SMSManager extends Manager
         );
     }
 
-//    /**
-//     * Create the Twilio client.
-//     *
-//     * @return \Twilio\Rest\Client
-//     */
-//    protected function createTwilioClient()
-//    {
-//        return new TwilioClient(
-//            $this->app['config']['sms.twilio.key'],
-//            $this->app['config']['sms.twilio.secret']
-//        );
-//    }
-
-
     /**
      * Create a Null SMS driver instance.
      *
-     * @return \App\Components\Sms\Drivers\NullDriver
+     * @return \LBHurtado\SMS\Drivers\NullDriver
      */
     public function createNullDriver()
     {
