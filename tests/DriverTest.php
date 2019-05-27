@@ -3,7 +3,6 @@
 namespace LBHurtado\SMS\Tests;
 
 use Mockery;
-use LBHurtado\SMS\SMSManager;
 use LBHurtado\SMS\Facades\SMS;
 use LBHurtado\EngageSpark\EngageSpark;
 use LBHurtado\SMS\Drivers\EngageSparkDriver;

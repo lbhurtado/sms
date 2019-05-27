@@ -2,15 +2,14 @@
 
 namespace LBHurtado\SMS;
 
-use LBHurtado\EngageSpark\EngageSpark;
-
 use Illuminate\Support\Manager;
-use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Nexmo\Client as NexmoClient;
-//use Twilio\Rest\Client as TwilioClient;
 use LBHurtado\SMS\Drivers\NullDriver;
 use LBHurtado\SMS\Drivers\NexmoDriver;
+use LBHurtado\EngageSpark\EngageSpark;
+//use Twilio\Rest\Client as TwilioClient;
 //use App\Components\Sms\Drivers\TwilioDriver;
+use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Nexmo\Client\Credentials\Basic as NexmoBasicCredentials;
 
 class SMSManager extends Manager

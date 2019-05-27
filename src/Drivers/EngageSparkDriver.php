@@ -17,7 +17,6 @@ class EngageSparkDriver extends Driver
         $this->sender = $from;
     }
 
-    //TODO: orgnaization_id - expose it
     public function send()
     {
         return $this->client->send([
