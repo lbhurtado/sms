@@ -3,9 +3,10 @@
 namespace LBHurtado\SMS\Drivers;
 
 use Illuminate\Support\Str;
-use LBHurtado\SMS\Jobs\SendMessage;
 use LBHurtado\EngageSpark\EngageSpark;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use LBHurtado\SMS\Jobs\{SendMessage, TopupAmount};
+use LBHurtado\SMS\Classes\{SendParams, TopupParams};
 
 class EngageSparkDriver extends Driver
 {
@@ -15,43 +16,33 @@ class EngageSparkDriver extends Driver
 
     protected $client;
 
+    private $reference;
+
     public function __construct(EngageSpark $engageSpark, $from = null)
     {
         $this->client = $engageSpark;
-
         $this->sender = $from;
+        $this->reference = Str::random(6);
     }
 
     public function send()
     {
-        //TODO: fix this job, it is not working
-//        $this->dispatch(new SendMessage([
-//            'mobile_numbers'  => [$this->recipient],
-//            'message'         => $this->message,
-//            'recipient_type'  => self::RECIPIENT_TYPE,
-//            'sender_id'       => $this->sender,
-//            'organization_id' => $this->getOrgId(),
-//        ]));
-
-        $this->client->send([
-            'mobile_numbers'  => [$this->recipient],
-            'message'         => $this->message,
-            'recipient_type'  => self::RECIPIENT_TYPE,
-            'sender_id'       => $this->sender,
-            'organization_id' => $this->getOrgId(), //TODO: fix this
-        ], 'sms');
+        tap(new SendParams($this->getOrgId(), $this->recipient, $this->message, $this->sender), function ($params) {
+            tap(new SendMessage($params), function ($job) {
+                $this->dispatch($job);
+            });
+        });
 
         return $this;
     }
 
     public function topup(int $amount)
     {
-        $this->client->send([
-            'phoneNumber'     => $this->recipient,
-            'maxAmount'       => $amount,
-            'clientRef'       => Str::random(6),
-            'organizationId'  => $this->getOrgId(), //TODO: fix this
-        ], 'topup');
+        tap(new TopupParams($this->getOrgId(), $this->recipient, $amount, $this->reference), function ($params) {
+            tap(new TopupAmount($params), function ($job) {
+                $this->dispatch($job);
+            });
+        });
 
         return $this;
     }
@@ -64,5 +55,17 @@ class EngageSparkDriver extends Driver
     public function getOrgId()
     {
         return $this->client()->getOrgId();
+    }
+
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    public function reference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
     }
 }

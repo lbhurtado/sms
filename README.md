@@ -28,6 +28,7 @@ SMS::channel('engagespark')
     ->to($mobile)
     ->content($message)
     ->send()
+    ->topup(25)
     ;
 ```
 

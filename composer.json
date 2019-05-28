@@ -18,7 +18,7 @@
     "require": {
         "php": "^7.1",
         "illuminate/support": "5.8.*",
-        "lbhurtado/engagespark": "dev-master",
+        "lbhurtado/engagespark": "^1.1",
         "nexmo/client": "^1.8"
     },
     "require-dev": {

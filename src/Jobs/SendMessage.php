@@ -3,6 +3,7 @@
 namespace LBHurtado\SMS\Jobs;
 
 use Illuminate\Bus\Queueable;
+use LBHurtado\SMS\Classes\SendParams;
 use LBHurtado\EngageSpark\EngageSpark;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,13 +18,25 @@ class SendMessage implements ShouldQueue
 
     protected $params;
 
-    public function __construct($params)
+    protected $service;
+
+    public function __construct(SendParams $params)
     {
         $this->params = $params;
     }
 
     public function handle(EngageSpark $engageSpark)
     {
-        $engageSpark->send($this->params, self::MODE);
+        $this->service = $engageSpark->send($this->params->toArray(), self::MODE);
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    public function getService()
+    {
+        return $this->service;
     }
 }
