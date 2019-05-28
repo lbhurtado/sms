@@ -15,6 +15,13 @@ You can install the package via composer:
 composer require lbhurtado/sms
 ```
 
+modify environment vairables
+```dotenv
+ENGAGESPARK_API_KEY=
+ENGAGESPARK_ORGANIZATION_ID=
+ENGAGESPARK_SENDER_ID=
+```
+
 ## Usage
 
 ``` php
@@ -23,8 +30,10 @@ use LBHurtado\SMS\Facades\SMS;
 $mobile = '+639171234567';
 $message = 'The quick brown fox...';
 $amount = 25;
+$senderId = 'TXTCMDR';
 
 SMS::channel('engagespark')
+    ->from($senderId)
     ->to($mobile)
     ->content($message)
     ->send()
