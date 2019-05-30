@@ -4,35 +4,34 @@ namespace LBHurtado\SMS\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use LBHurtado\SMS\Classes\TopupParams;
+use LBHurtado\SMS\Classes\EngageSparkTopupHttpApiParams;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-
 class AirtimeTransferred
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /** @var TopupParams */
+    /** @var EngageSparkTopupHttpApiParams */
     protected $params;
 
     /**
      * Create a new event instance.
      *
-     * @param TopupParams $params
+     * @param EngageSparkTopupHttpApiParams $params
      */
-    public function __construct(TopupParams $params)
+    public function __construct(EngageSparkTopupHttpApiParams $params)
     {
         $this->params = $params;
     }
 
     /**
-     * @return TopupParams
+     * @return EngageSparkTopupHttpApiParams
      */
-    public function getParams(): TopupParams
+    public function getParams(): EngageSparkTopupHttpApiParams
     {
         return $this->params;
     }

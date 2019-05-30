@@ -5,16 +5,12 @@ namespace LBHurtado\SMS\Tests;
 use Mockery;
 use Illuminate\Support\Str;
 use LBHurtado\SMS\Facades\SMS;
-use LBHurtado\SMS\Classes\SendParams;
-use LBHurtado\SMS\Classes\TopupParams;
 use LBHurtado\EngageSpark\EngageSpark;
 use Illuminate\Support\Facades\Queue;
 use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Illuminate\Foundation\Testing\WithFaker;
-use LBHurtado\SMS\Jobs\{SendMessage, TopupAmount};
-
-use LBHurtado\SMS\Events\AirtimeTransferred;
-use Illuminate\Support\Facades\Event;
+use LBHurtado\EngageSpark\Jobs\{SendMessage, TopupAmount};
+use LBHurtado\EngageSpark\Classes\{SendHttpApiParams, TopupHttpApiParams};
 
 class DriverTest extends TestCase
 {
@@ -57,9 +53,7 @@ class DriverTest extends TestCase
 
         /*** assert ***/
         Queue::assertPushed(SendMessage::class, function ($job) use ($org_id, $mobile_number, $message, $sender_id) {
-//            dd(array_diff($job->getParams()->toArray(), (new SendParams($org_id, $mobile_number, $message, $sender_id))->toArray()));
-            return $job->getParams()->toArray() == (new SendParams($org_id, $mobile_number, $message, $sender_id))->toArray();
-            return true;
+            return $job->params->toArray() == (new SendHttpApiParams($org_id, $mobile_number, $message, $sender_id))->toArray();
         });
     }
 
@@ -80,30 +74,15 @@ class DriverTest extends TestCase
 
         /*** assert ***/
         Queue::assertPushed(TopupAmount::class, function ($job) use ($org_id, $mobile_number, $amount, $reference) {
-            return $job->getParams()->toArray() == (new TopupParams($org_id, $mobile_number, $amount, $reference))->toArray();
+            return $job->params->toArray() == (new TopupHttpApiParams($org_id, $mobile_number, $amount, $reference))->toArray();
         });
 
     }
 
-    /** @test */
+//    /** @test */
     public function it_can_send_event_upon_topup()
     {
-        /*** arrange ***/
-        Event::fake();
 
-        $org_id = $this->faker->numberBetween(1000,9999);
-        $mobile_number = $this->faker->phoneNumber;
-        $amount = $this->faker->numberBetween(15, 25);
-        $reference = Str::random(5);
-
-        /*** act ***/
-        $this->engagespark->shouldReceive('getOrgId')->once()->andReturn($org_id);
-        $this->driver->reference($reference)->to($mobile_number)->topup($amount);
-
-        /*** assert ***/
-        Event::assertDispatched(AirtimeTransferred::class, function ($event) use ($org_id, $mobile_number, $amount, $reference) {
-            return $event->getParams()->toArray() == (new TopupParams($org_id, $mobile_number, $amount, $reference))->toArray();
-        });
     }
 
 //    /** @test */
