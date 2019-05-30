@@ -43,7 +43,7 @@ class SendParams implements Params
         $this->org_id = $org_id;
         $this->mobile_number = $mobile_number;
         $this->message = $message;
-        $this->sender_id = $sender_id;
+        $this->sender_id = $sender_id; //TODO: read ENGAGESPARK_SENDER_ID from .env
     }
 
     public function setRecipientType(string $recipientType)

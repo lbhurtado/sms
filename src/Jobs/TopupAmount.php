@@ -2,6 +2,7 @@
 
 namespace LBHurtado\SMS\Jobs;
 
+use LBHurtado\SMS\Events\AirtimeTransferred;
 use Illuminate\Bus\Queueable;
 use LBHurtado\SMS\Classes\TopupParams;
 use LBHurtado\EngageSpark\EngageSpark;
@@ -27,7 +28,9 @@ class TopupAmount implements ShouldQueue
 
     public function handle(EngageSpark $engageSpark)
     {
-        $this->service = $engageSpark->send($this->params->toArray(), 'topup');
+        $this->service = $engageSpark->send($this->params->toArray(), self::MODE);
+
+        event(new AirtimeTransferred($this->params));
     }
 
     public function getParams()
