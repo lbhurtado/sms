@@ -19,7 +19,7 @@
         "php": "^7.1",
         "illuminate/support": "5.8.*",
         "lbhurtado/common": "1.0",
-        "lbhurtado/engagespark": "^1.1",
+        "lbhurtado/engagespark": "dev-master",
         "nexmo/client": "^1.8"
     },
     "require-dev": {

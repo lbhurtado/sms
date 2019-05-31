@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+//TODO: deprecate and transfer to EngageSpark package
 class AirtimeTransferred
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

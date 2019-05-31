@@ -6,9 +6,10 @@ use Mockery;
 use Illuminate\Support\Str;
 use LBHurtado\SMS\Facades\SMS;
 use LBHurtado\EngageSpark\EngageSpark;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\{Queue, Event};
 use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Illuminate\Foundation\Testing\WithFaker;
+use LBHurtado\EngageSpark\Events\MessageSent;
 use LBHurtado\EngageSpark\Jobs\{SendMessage, TopupAmount};
 use LBHurtado\EngageSpark\Classes\{SendHttpApiParams, TopupHttpApiParams};
 
@@ -42,18 +43,24 @@ class DriverTest extends TestCase
     {
         /*** arrange ***/
         Queue::fake();
+        Event::fake();
+
         $org_id = $this->faker->numberBetween(1000,9999);
         $mobile_number = $this->faker->phoneNumber;
         $message = $this->faker->sentence;
         $sender_id = $this->faker->word;
+        $params = new SendHttpApiParams($org_id, $mobile_number, $message, $sender_id);
 
         /*** act ***/
         $this->engagespark->shouldReceive('getOrgId')->once()->andReturn($org_id);
         $this->driver->to($mobile_number)->content($message)->from($sender_id)->send();
 
         /*** assert ***/
-        Queue::assertPushed(SendMessage::class, function ($job) use ($org_id, $mobile_number, $message, $sender_id) {
-            return $job->params->toArray() == (new SendHttpApiParams($org_id, $mobile_number, $message, $sender_id))->toArray();
+        Queue::assertPushed(SendMessage::class, function ($job) use ($params) {
+            return $job->params->toArray() == $params->toArray();
+        });
+        Event::assertDispatched(MessageSent::class, function ($event) use ($params)  {
+            return $event->params->toArray() == $params->toArray();
         });
     }
 

@@ -4,6 +4,7 @@ namespace LBHurtado\SMS\Drivers;
 
 use Illuminate\Support\Str;
 use LBHurtado\EngageSpark\EngageSpark;
+use LBHurtado\EngageSpark\Events\MessageSent;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use LBHurtado\EngageSpark\Jobs\{SendMessage, TopupAmount};
 use LBHurtado\EngageSpark\Classes\{SendHttpApiParams, TopupHttpApiParams};
@@ -38,6 +39,10 @@ class EngageSparkDriver extends Driver
         tap(new SendHttpApiParams($this->getOrgId(), $this->recipient, $this->message, $this->sender), function ($params) {
             tap(new SendMessage($params), function ($job) {
                 $this->dispatch($job);
+            });
+            //TODO: this is only true if sync, not if async - find a way to dispatch event once job is successful
+            tap(new MessageSent($params), function ($event) {
+                event($event);
             });
         });
 
