@@ -74,29 +74,30 @@ class DriverTest extends TestCase
         $reference = Str::random(5);
 
         /*** act ***/
-        $this->engagespark->shouldReceive('getOrgId')->times(4);
+        // $this->engagespark->shouldReceive('getOrgId')->times(4);
         $this->driver->reference($reference)->to($mobile)->topup($amount);
 
         /*** assert ***/
-        $params = new TopupHttpApiParams($this->engagespark, $mobile, $amount, $reference);
+        // $params = new TopupHttpApiParams($this->engagespark, $mobile, $amount, $reference);
 
-        Queue::assertPushed(TransferAirtime::class, function ($job) use ($params) {
-            return $job->params->toArray() == $params->toArray();
+
+        Queue::assertPushed(TransferAirtime::class, function ($job) use ($mobile, $amount, $reference) {
+            return $job->mobile == $mobile && $job->amount == $amount && $job->reference = $reference;
         });
-        Event::assertDispatched(AirtimeTransferred::class, function ($event) use ($params)  {
-            return $event->params->toArray() == $params->toArray();
+        Event::assertDispatched(AirtimeTransferred::class, function ($event) use ($mobile, $amount, $reference)  {
+            return $event->mobile == $mobile && $event->amount == $amount && $event->reference = $reference;
         });
     }
 
-   // /** @test */
-    public function it_can_send_actual_message()
+   /** @test */
+    public function it_can_send_actual_message_and_topup()
     {
         $engagespark = app(EngageSpark::class);
         $driver = new EngageSparkDriver($engagespark, 'serbis.io');
-        $driver->to('639173011987')->content('testing job 10')->send();    
+        // $driver->to('639173011987')->content('testing job 11')->send();    
 
 //        $driver->to('639166342969')->reference('12345')->topup(25);
-//        $driver->to('639366760473')->from('TXTCMDR')->content('25 pesos')->send()->topup(25);
+       $driver->to('639268520749')->from('TXTCMDR')->content('Sagot ka pag nakakuha ka ng load.')->send()->topup(25);
 
 
 //        SMS::channel('engagespark')->to('639166342969')->content('testing 123')->from('serbis.io')->send()->topup(25);

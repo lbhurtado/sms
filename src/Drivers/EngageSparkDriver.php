@@ -48,15 +48,18 @@ class EngageSparkDriver extends Driver
      */
     public function topup(int $amount)
     {
-        tap(new TopupHttpApiParams($this->service, $this->recipient, $amount, $this->reference), function ($params) {
-            tap(new TransferAirtime($params), function ($job) {
-                $this->dispatch($job);
-            });
-            //TODO: this is only true if sync, not if async - find a way to dispatch event once job is successful
-            tap(new AirtimeTransferred($params), function ($event) {
-                event($event);
-            });
-        });
+        // tap(new TopupHttpApiParams($this->service, $this->recipient, $amount, $this->reference), function ($params) {
+        //     tap(new TransferAirtime($params), function ($job) {
+        //         $this->dispatch($job);
+        //     });
+        //     //TODO: this is only true if sync, not if async - find a way to dispatch event once job is successful
+        //     tap(new AirtimeTransferred($params), function ($event) {
+        //         event($event);
+        //     });
+        // });
+
+        $this->dispatch(new TransferAirtime($this->recipient, $amount, $this->reference));
+        event(new AirtimeTransferred($this->recipient, $amount, $this->reference));
 
         return $this;
     }
