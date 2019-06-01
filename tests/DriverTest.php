@@ -47,7 +47,7 @@ class DriverTest extends TestCase
         /*** arrange ***/
         $mobile = $this->faker->phoneNumber;
         $message = $this->faker->sentence;
-        $senderId = 'xxx'; //$this->faker->word;
+        $senderId = $this->faker->word;
 
         /*** act ***/
         $this->driver->to($mobile)->content($message)->from($senderId)->send();
@@ -74,13 +74,9 @@ class DriverTest extends TestCase
         $reference = Str::random(5);
 
         /*** act ***/
-        // $this->engagespark->shouldReceive('getOrgId')->times(4);
         $this->driver->reference($reference)->to($mobile)->topup($amount);
 
         /*** assert ***/
-        // $params = new TopupHttpApiParams($this->engagespark, $mobile, $amount, $reference);
-
-
         Queue::assertPushed(TransferAirtime::class, function ($job) use ($mobile, $amount, $reference) {
             return $job->mobile == $mobile && $job->amount == $amount && $job->reference = $reference;
         });
@@ -89,17 +85,19 @@ class DriverTest extends TestCase
         });
     }
 
-   /** @test */
+   // /** @test */
     public function it_can_send_actual_message_and_topup()
     {
         $engagespark = app(EngageSpark::class);
         $driver = new EngageSparkDriver($engagespark, 'serbis.io');
         // $driver->to('639173011987')->content('testing job 11')->send();    
+        // $driver->to('639166342969')->reference('12345')->topup(25);
+        // $driver->to('639268520749')->from('TXTCMDR')->content('Sagot ka pag nakakuha ka ng load.')->send()->topup(25);
 
-//        $driver->to('639166342969')->reference('12345')->topup(25);
-       $driver->to('639268520749')->from('TXTCMDR')->content('Sagot ka pag nakakuha ka ng load.')->send()->topup(25);
+        $susan = '639268520749';
+        $wena = '639390785727';
+        $android = '639166342969';
 
-
-//        SMS::channel('engagespark')->to('639166342969')->content('testing 123')->from('serbis.io')->send()->topup(25);
+        SMS::channel('engagespark')->to($android)->content('Sagot ka pag nakakuha ka ng load.')->from('serbis.io')->send()->topup(10);
     }
 }
