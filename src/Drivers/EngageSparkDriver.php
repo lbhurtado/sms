@@ -4,9 +4,9 @@ namespace LBHurtado\SMS\Drivers;
 
 use Illuminate\Support\Str;
 use LBHurtado\EngageSpark\EngageSpark;
-use LBHurtado\EngageSpark\Events\MessageSent;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use LBHurtado\EngageSpark\Jobs\{SendMessage, TopupAmount};
+use LBHurtado\EngageSpark\Jobs\{SendMessage, TransferAirtime};
+use LBHurtado\EngageSpark\Events\{MessageSent, AirtimeTransferred};
 use LBHurtado\EngageSpark\Classes\{SendHttpApiParams, TopupHttpApiParams};
 
 class EngageSparkDriver extends Driver
@@ -36,15 +36,8 @@ class EngageSparkDriver extends Driver
      */
     public function send()
     {
-        tap(new SendHttpApiParams($this->getOrgId(), $this->recipient, $this->message, $this->sender), function ($params) {
-            tap(new SendMessage($params), function ($job) {
-                $this->dispatch($job);
-            });
-            //TODO: this is only true if sync, not if async - find a way to dispatch event once job is successful
-            tap(new MessageSent($params), function ($event) {
-                event($event);
-            });
-        });
+        $this->dispatch(new SendMessage($this->recipient, $this->message));
+        event(new MessageSent($this->recipient, $this->message, $this->sender));
 
         return $this;
     }
@@ -55,9 +48,13 @@ class EngageSparkDriver extends Driver
      */
     public function topup(int $amount)
     {
-        tap(new TopupHttpApiParams($this->getOrgId(), $this->recipient, $amount, $this->reference), function ($params) {
-            tap(new TopupAmount($params), function ($job) {
+        tap(new TopupHttpApiParams($this->service, $this->recipient, $amount, $this->reference), function ($params) {
+            tap(new TransferAirtime($params), function ($job) {
                 $this->dispatch($job);
+            });
+            //TODO: this is only true if sync, not if async - find a way to dispatch event once job is successful
+            tap(new AirtimeTransferred($params), function ($event) {
+                event($event);
             });
         });
 

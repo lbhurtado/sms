@@ -9,8 +9,8 @@ use LBHurtado\EngageSpark\EngageSpark;
 use Illuminate\Support\Facades\{Queue, Event};
 use LBHurtado\SMS\Drivers\EngageSparkDriver;
 use Illuminate\Foundation\Testing\WithFaker;
-use LBHurtado\EngageSpark\Events\MessageSent;
-use LBHurtado\EngageSpark\Jobs\{SendMessage, TopupAmount};
+use LBHurtado\EngageSpark\Events\{MessageSent, AirtimeTransferred};
+use LBHurtado\EngageSpark\Jobs\{SendMessage, TransferAirtime};
 use LBHurtado\EngageSpark\Classes\{SendHttpApiParams, TopupHttpApiParams};
 
 class DriverTest extends TestCase
@@ -39,70 +39,61 @@ class DriverTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_a_message()
+    public function driver_can_send_a_message_job_and_dispatch_event()
     {
-        /*** arrange ***/
         Queue::fake();
         Event::fake();
 
-        $org_id = $this->faker->numberBetween(1000,9999);
-        $mobile_number = $this->faker->phoneNumber;
+        /*** arrange ***/
+        $mobile = $this->faker->phoneNumber;
         $message = $this->faker->sentence;
-        $sender_id = $this->faker->word;
-        $params = new SendHttpApiParams($org_id, $mobile_number, $message, $sender_id);
+        $senderId = 'xxx'; //$this->faker->word;
 
         /*** act ***/
-        $this->engagespark->shouldReceive('getOrgId')->once()->andReturn($org_id);
-        $this->driver->to($mobile_number)->content($message)->from($sender_id)->send();
+        $this->driver->to($mobile)->content($message)->from($senderId)->send();
 
         /*** assert ***/
-        Queue::assertPushed(SendMessage::class, function ($job) use ($params) {
-            return $job->params->toArray() == $params->toArray();
+        Queue::assertPushed(SendMessage::class, function ($job) use ($mobile, $message, $senderId) {
+            return $job->mobile == $mobile && $job->message == $message && $job->senderId = $senderId;
         });
-        Event::assertDispatched(MessageSent::class, function ($event) use ($params)  {
-            return $event->params->toArray() == $params->toArray();
+    
+        Event::assertDispatched(MessageSent::class, function ($event) use ($mobile, $message, $senderId)  {
+            return $event->mobile == $mobile && $event->message == $message && $event->senderId == $senderId;
         });
     }
 
     /** @test */
-    public function it_can_topup_an_amount_using_a_job()
+    public function it_can_topup_an_amount_using_a_job_and_dispatch_event()
     {
-        /*** arrange ***/
         Queue::fake();
+        Event::fake();
 
-        $org_id = $this->faker->numberBetween(1000,9999);
-        $mobile_number = $this->faker->phoneNumber;
+        /*** arrange ***/
+        $mobile = $this->faker->phoneNumber;
         $amount = $this->faker->numberBetween(25,100);
         $reference = Str::random(5);
 
         /*** act ***/
-        $this->engagespark->shouldReceive('getOrgId')->once()->andReturn($org_id);
-        $this->driver->reference($reference)->to($mobile_number)->topup($amount);
+        $this->engagespark->shouldReceive('getOrgId')->times(4);
+        $this->driver->reference($reference)->to($mobile)->topup($amount);
 
         /*** assert ***/
-        Queue::assertPushed(TopupAmount::class, function ($job) use ($org_id, $mobile_number, $amount, $reference) {
-            return $job->params->toArray() == (new TopupHttpApiParams($org_id, $mobile_number, $amount, $reference))->toArray();
+        $params = new TopupHttpApiParams($this->engagespark, $mobile, $amount, $reference);
+
+        Queue::assertPushed(TransferAirtime::class, function ($job) use ($params) {
+            return $job->params->toArray() == $params->toArray();
         });
-
+        Event::assertDispatched(AirtimeTransferred::class, function ($event) use ($params)  {
+            return $event->params->toArray() == $params->toArray();
+        });
     }
 
-//    /** @test */
-    public function it_can_send_event_upon_topup()
+   // /** @test */
+    public function it_can_send_actual_message()
     {
-
-    }
-
-//    /** @test */
-    public function it_can_send_a_message_actual()
-    {
-        //change the api_key and org_id to reflect actual in order to send
         $engagespark = app(EngageSpark::class);
-
-
-        $this->engagespark->shouldReceive('getOrgId')->once()->andReturn($org_id);
-
         $driver = new EngageSparkDriver($engagespark, 'serbis.io');
-//        $driver->to('639173011987')->content('testing job 8')->send();
+        $driver->to('639173011987')->content('testing job 10')->send();    
 
 //        $driver->to('639166342969')->reference('12345')->topup(25);
 //        $driver->to('639366760473')->from('TXTCMDR')->content('25 pesos')->send()->topup(25);
