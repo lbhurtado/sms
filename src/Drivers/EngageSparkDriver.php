@@ -36,7 +36,7 @@ class EngageSparkDriver extends Driver
      */
     public function send()
     {
-        $this->dispatch(new SendMessage($this->recipient, $this->message));
+        $this->dispatch(new SendMessage($this->recipient, $this->message, $this->sender));
         event(new MessageSent($this->recipient, $this->message, $this->sender));
 
         return $this;
