@@ -75,6 +75,6 @@ class SMSManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['sms.default'] ?? 'null';
+        return $this->container['config']['sms.default'] ?? 'null';
     }
 }
