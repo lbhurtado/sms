@@ -45,4 +45,9 @@ class NexmoDriver extends Driver
             'text' => trim($this->message)
         ]);
     }
+
+    public function topup(int $amount)
+    {
+        // TODO: Implement topup() method.
+    }
 }

@@ -11,4 +11,9 @@ class NullDriver extends Driver
     {
         return [];
     }
+
+    public function topup(int $amount)
+    {
+        // TODO: Implement topup() method.
+    }
 }
