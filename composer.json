@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "~7.1||^8.0.1",
         "illuminate/support": "^8.0",
         "lbhurtado/common": "^2.0",
         "lbhurtado/engagespark": "^3.0"
